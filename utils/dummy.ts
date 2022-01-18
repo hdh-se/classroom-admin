@@ -68,6 +68,8 @@ export const StudentAccountList: Array<IStudentAccount> = [
     studentId: '123343443',
     email: 'panhhuu@classroom.com',
     username: 'anhhuu',
+    status: 10,
+    statusText: 'Hoạt động',
     createdDate: new Date(),
   },
   {
@@ -76,6 +78,8 @@ export const StudentAccountList: Array<IStudentAccount> = [
     studentId: '123343441',
     email: 'tanhanh@classroom.com',
     username: 'tanhanh',
+    status: 90,
+    statusText: 'Bị chặn',
     createdDate: new Date(),
   },
   {
@@ -83,6 +87,8 @@ export const StudentAccountList: Array<IStudentAccount> = [
     fullname: 'Le Quoc Dung',
     studentId: '123343442',
     email: 'quocdung@classroom.com',
+    status: 10,
+    statusText: 'Hoạt động',
     username: 'quocdung',
     createdDate: new Date(),
   },

@@ -1,4 +1,4 @@
-import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { faBan, faEye } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Card, CardBody, Col, InputGroup, Row } from '@paljs/ui';
 import React, { useState } from 'react';
@@ -21,6 +21,7 @@ const AdminAccount = () => {
             <th>Họ tên</th>
             <th>Tên tài khoản</th>
             <th>Email</th>
+            <th>Trạng thái</th>
             <th>Ngày tạo</th>
             <th>Tác vụ</th>
           </tr>
@@ -34,10 +35,20 @@ const AdminAccount = () => {
                 <td>{studentAccount.fullname}</td>
                 <td>{studentAccount.username}</td>
                 <td>{studentAccount.email}</td>
+                <td>{studentAccount.statusText}</td>
                 <td>{studentAccount.createdDate?.toLocaleString()}</td>
                 <td>
                   <Button appearance="outline" size="Small">
                     <FontAwesomeIcon icon={faEye} />
+                  </Button>
+
+                  <Button
+                    appearance="outline"
+                    status="Danger"
+                    size="Small"
+                    disable={studentAccount.status == 90 ? 'disable' : null}
+                  >
+                    <FontAwesomeIcon icon={faBan} />
                   </Button>
                 </td>
               </tr>

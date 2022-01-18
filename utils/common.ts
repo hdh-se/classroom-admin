@@ -53,14 +53,3 @@ export const triggerOnChangeEvent = (window, node: any, value: string = '', call
     }
   }
 };
-
-export const getWindowSize = () => {
-  if (typeof window !== 'undefined') {
-    return {
-      width: window.outerWidth,
-      height: window.outerHeight,
-    } as IWindowSize;
-  }
-
-  return undefined;
-};

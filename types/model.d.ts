@@ -19,5 +19,7 @@ interface IStudentAccount {
   username: string;
   email: string;
   fullname: string;
+  status: number;
+  statusText: string;
   createdDate: DateTime;
 }
