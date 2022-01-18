@@ -7,8 +7,16 @@ import Link from 'next/link';
 import Auth, { Group } from '../../components/Auth/Auth';
 import withAuth from '../../HOC/withAuth';
 import withUnAuth from '../../HOC/withUnAuth';
+import { setToken } from '../../utils/common';
 
 const Login = () => {
+  const handleLogin = () => {
+    setTimeout(() => {
+      setToken('hihihi');
+      window.location.reload();
+    }, 800);
+  };
+
   const onCheckbox = () => {
     // v will be true or false
   };
@@ -29,7 +37,7 @@ const Login = () => {
             <a>Forgot Password?</a>
           </Link>
         </Group>
-        <Button status="Success" type="button" shape="SemiRound" fullWidth>
+        <Button status="Success" type="button" shape="SemiRound" fullWidth onClick={handleLogin}>
           Login
         </Button>
       </form>
