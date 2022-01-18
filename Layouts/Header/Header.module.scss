@@ -1,0 +1,39 @@
+@import "../../styles/variables.scss";
+
+.header {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+
+    &__right > div {
+        height: auto;
+        display: flex;
+        align-content: center;
+    }
+
+    &__right {
+        @media screen and (max-width: $sm) {
+            display: none !important;
+        }
+    }
+
+    &__logo {
+        font-size: 1.25rem;
+        white-space: nowrap;
+        text-decoration: none;
+    }
+
+    &__left {
+        display: flex;
+        align-items: center;
+    }
+
+    &__them-select {
+        min-width: 150px;
+    }
+
+    &__label {
+        display: flex;
+        align-items: center;
+    }
+}
