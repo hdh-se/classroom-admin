@@ -40,12 +40,11 @@ const Login = () => {
   };
 
   return (
-    <Auth title="Login" subTitle="Hello! Login with your email">
+    <Auth title="Login" subTitle="Hello! Login with your user name">
       <form>
         <InputGroup fullWidth>
           <input
-            type="email"
-            placeholder="Email Address"
+            placeholder="User Name"
             onChange={(e) => {
               setUserName(e.target.value);
             }}

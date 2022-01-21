@@ -22,3 +22,18 @@ interface IParamVerifyResetPasswordNumber {
   email: string;
   verifiedNumber: number;
 }
+
+interface IParamGetClasses {
+  currentUser: string;
+  title: string;
+}
+
+interface IParamGetClassDetail {
+  id: string;
+  currentUser: string;
+}
+
+interface IParamGetClassAssignments {
+  courseId: number;
+  currentUser: string;
+}
