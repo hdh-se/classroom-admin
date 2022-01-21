@@ -1,38 +1,66 @@
 import { Button } from '@paljs/ui/Button';
 import { InputGroup } from '@paljs/ui/Input';
 import { Checkbox } from '@paljs/ui/Checkbox';
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 
 import Auth, { Group } from '../../components/Auth/Auth';
 import withAuth from '../../HOC/withAuth';
 import withUnAuth from '../../HOC/withUnAuth';
-import { setToken } from '../../utils/common';
+import { setLocalFullName, setLocalUserName, setToken } from '../../utils/common';
+import { apiAdmin } from '../../services/apiAction/apiAdmin';
+import Loading from '../../components/Loading/Loading';
+import { Alert, Spinner } from 'react-bootstrap';
 
 const Login = () => {
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+
   const handleLogin = () => {
-    setTimeout(() => {
-      setToken('hihihi');
-      window.location.reload();
-    }, 800);
+    setLoading(true);
+    apiAdmin
+      .login({ password: password, username: userName })
+      .then((res) => {
+        let token = res.data?.content?.token;
+        let fullName = res.data?.content?.fullName;
+        let userName = res.data?.content?.username;
+        setToken(token);
+        setLocalUserName(userName);
+        setLocalFullName(fullName);
+
+        setLoading(false);
+        window.location.replace('/');
+      })
+      .catch((err) => {
+        setMessage('Đăng nhập không thành công, tài khoản hoặc mật khẩu không chính xác');
+        setLoading(false);
+      });
   };
 
-  const onCheckbox = () => {
-    // v will be true or false
-  };
   return (
     <Auth title="Login" subTitle="Hello! Login with your email">
       <form>
         <InputGroup fullWidth>
-          <input type="email" placeholder="Email Address" />
+          <input
+            type="email"
+            placeholder="Email Address"
+            onChange={(e) => {
+              setUserName(e.target.value);
+            }}
+          />
         </InputGroup>
         <InputGroup fullWidth>
-          <input type="password" placeholder="Password" />
+          <input
+            type="password"
+            placeholder="Password"
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+          />
         </InputGroup>
         <Group>
-          <Checkbox checked onChange={onCheckbox}>
-            Remember me
-          </Checkbox>
           <Link href="/auth/request-password">
             <a>Forgot Password?</a>
           </Link>
@@ -47,6 +75,8 @@ const Login = () => {
           <a>Register</a>
         </Link>
       </p>
+      {loading && <Loading />}
+      {!!message && <Alert variant={'danger'}>{message}</Alert>}
     </Auth>
   );
 };

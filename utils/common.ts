@@ -10,6 +10,14 @@ export const setToken = (value: string) => {
   window.localStorage.setItem(TokenKey.MainToken, value);
 };
 
+export const setLocalFullName = (value: string) => {
+  window.localStorage.setItem(TokenKey.FullName, value);
+};
+
+export const setLocalUserName = (value: string) => {
+  window.localStorage.setItem(TokenKey.UserName, value);
+};
+
 export const isAuthentication = () => {
   if (window.localStorage.getItem(TokenKey.MainToken)) {
     return true;
@@ -21,8 +29,24 @@ export const getToken = () => {
   return window.localStorage.getItem(TokenKey.MainToken);
 };
 
+export const getLocalFullName = () => {
+  return window.localStorage.getItem(TokenKey.FullName);
+};
+
+export const getLocalUserName = () => {
+  return window.localStorage.getItem(TokenKey.UserName);
+};
+
 export const removeToken = () => {
   window.localStorage.removeItem(TokenKey.MainToken);
+};
+
+export const removeLocalUserName = () => {
+  window.localStorage.removeItem(TokenKey.UserName);
+};
+
+export const removeLocalFullName = () => {
+  window.localStorage.removeItem(TokenKey.FullName);
 };
 
 export const isValidLang = (lang) => {
