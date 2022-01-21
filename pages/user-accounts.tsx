@@ -28,7 +28,7 @@ const AdminAccount = () => {
         <tbody>
           {classes.map((studentAccount) => {
             return (
-              <tr>
+              <tr key={studentAccount.id}>
                 <td>{studentAccount.id}</td>
                 <td>{!!studentAccount.studentId ? studentAccount.studentId : 'Không tồn tại'}</td>
                 <td>{studentAccount.fullname}</td>

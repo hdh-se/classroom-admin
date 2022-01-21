@@ -26,7 +26,7 @@ const Classes = () => {
         <tbody>
           {classes.map((classItem) => {
             return (
-              <tr>
+              <tr key={classItem.id}>
                 <td>{classItem.id}</td>
                 <td>{classItem.name}</td>
                 <td>{classItem.author}</td>
