@@ -7,13 +7,13 @@ const axiosMain = axios.create({
   baseURL: mainURL,
   headers: {
     'content-type': 'application/json',
-    Authorization: '',
+    Authorization: 'Bearer ',
   },
 });
 
 axiosMain.interceptors.request.use((config) => {
   const token = getToken();
-  config.headers.Authorization = token;
+  config.headers.Authorization = 'Bearer ' + token;
 
   return config;
 });
