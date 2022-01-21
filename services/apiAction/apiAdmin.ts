@@ -22,4 +22,24 @@ export const apiAdmin = {
     const url = basicUrl + 'course/assignments';
     return axiosMain.get(url + `?CourseId${params.courseId.toString()}&CurrentUser=${params.currentUser}`);
   },
+
+  getUsers: (params: IParamGetUsers) => {
+    const url = basicUrl + 'user-account';
+    return axiosMain.get(url + `?Username=${params.userName.toString()}`);
+  },
+
+  changeStudentId: (params: IParamChangeStudentId) => {
+    const url = basicUrl + 'user-account/change-student-id';
+    return axiosMain.post(url, params);
+  },
+
+  lockAccount: (params: IParamLockUnLockAccount) => {
+    const url = basicUrl + 'user-account/lock-account';
+    return axiosMain.post(url, params);
+  },
+
+  unlockAccount: (params: IParamLockUnLockAccount) => {
+    const url = basicUrl + 'user-account/unlock-account';
+    return axiosMain.post(url, params);
+  },
 };
