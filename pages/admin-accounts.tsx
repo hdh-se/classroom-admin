@@ -27,7 +27,7 @@ const AdminAccount = () => {
         <tbody>
           {classes.map((adminAccount) => {
             return (
-              <tr>
+              <tr key={adminAccount.id}>
                 <td>{adminAccount.id}</td>
                 <td>{adminAccount.fullname}</td>
                 <td>{adminAccount.username}</td>
