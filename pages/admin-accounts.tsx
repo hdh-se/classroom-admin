@@ -29,14 +29,13 @@ const AdminAccount = () => {
   const loadUsers = ({ userName = '', email = '' }) => {
     axiosMain
       .get(
-        `/admin/user-account?StartAt=${LIMIT * (currentPage - 1)}&SortColumn=${
+        `/admin/admin-account?StartAt=${LIMIT * (currentPage - 1)}&SortColumn=${
           sort + CreateOn
         }&MaxResults=${LIMIT}&Username=${userName}&Email=${email}`,
       )
       .then(({ data }) => {
         if (data.status === 200 && data.result === 1) {
           setErrorMessage('');
-          console.log(data);
           const content = data.content;
           setAdminAccounts(content.data);
           setMaxPage(Math.ceil(content.total / LIMIT));
@@ -70,7 +69,7 @@ const AdminAccount = () => {
                 }}
               ></FontAwesomeIcon>
             </th>
-            <th>Tác vụ</th>
+            {/* <th>Tác vụ</th> */}
           </tr>
         </thead>
         <tbody>
@@ -78,15 +77,17 @@ const AdminAccount = () => {
             return (
               <tr key={adminAccount.id}>
                 <td>{adminAccount.id}</td>
-                <td>{adminAccount.fullname}</td>
+                <td>{`${!!adminAccount.firstName ? adminAccount.firstName : ''} ${
+                  !!adminAccount.middleName ? adminAccount.middleName : ''
+                } ${!!adminAccount.lastName ? adminAccount.lastName : ''}`}</td>
                 <td>{adminAccount.username}</td>
                 <td>{adminAccount.email}</td>
                 <td>{new Date(adminAccount.createOn).toLocaleString()}</td>
-                <td>
+                {/* <td>
                   <Button appearance="outline" size="Small">
                     <FontAwesomeIcon icon={faEye} />
                   </Button>
-                </td>
+                </td> */}
               </tr>
             );
           })}

@@ -8,7 +8,6 @@ import withAuth from '../HOC/withAuth';
 import { apiAdmin } from '../services/apiAction/apiAdmin';
 import styles from '../styles/Classes.module.scss';
 import { getLocalUserName } from '../utils/common';
-import { StudentAccountList } from '../utils/dummy';
 
 const AdminAccount = () => {
   const [listUsers, setListUsers] = useState([]);
@@ -16,16 +15,12 @@ const AdminAccount = () => {
   const [searchText, setSearchText] = useState('');
   const [message, setMessage] = useState('');
 
-  const [loadingDetail, setLoadingDetail] = useState(false);
-  const [detailModalShow, setDetailModalShow] = useState(false);
   const [confirmDeleteStudentIdModalShow, setConfirmDeleteStudentIdModalShow] = useState(false);
   const [changeStudentIdModalShow, setChangeStudentIdModalShow] = useState(false);
   const [confirmLockAccountModalShow, setConfirmLockAccountModalShow] = useState(false);
   const [confirmUnLockAccountModalShow, setConfirmUnLockAccountModalShow] = useState(false);
 
   const [usernameSelected, setUsernameSelected] = useState(null);
-  const [userDetailSelected, setUserDetailSelected] = useState(null);
-  const [userDetailAssignments, setUserDetailAssignments] = useState([]);
 
   const [studentIdChanging, setStudentIdChanging] = useState('');
 
@@ -158,10 +153,6 @@ const AdminAccount = () => {
           <td>{studentAccount.userStatus === 1 ? 'Hoạt động' : 'Bị khoá'}</td>
           <td>{new Date(studentAccount.createOn).toLocaleString()}</td>
           <td>
-            <Button appearance="outline" size="Small">
-              <FontAwesomeIcon icon={faEye} />
-            </Button>
-
             {studentAccount.userStatus === 1 ? (
               <Button
                 appearance="outline"
