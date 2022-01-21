@@ -1,5 +1,7 @@
 export enum TokenKey {
   MainToken = 'classroom-admin@main-token',
+  UserName = 'classroom-admin@username',
+  FullName = 'classroom-admin@full-name',
 }
 
 export enum ScreenWidthSize {

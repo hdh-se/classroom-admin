@@ -1,7 +1,6 @@
 interface IParamLogin {
   username: string;
   password: string;
-  rememberMe: boolean;
 }
 
 interface IParamRegister {

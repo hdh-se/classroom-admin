@@ -2,29 +2,27 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 import { getToken } from '../../utils/common';
 
 const mainURL = process.env.MAIN_URL;
-const adminToken = process.env.ADMIN_TOKEN;
 
 const axiosMain = axios.create({
-  baseURL: mainURL + 'api/',
+  baseURL: mainURL,
   headers: {
     'content-type': 'application/json',
-    // Authorization: adminToken,
+    Authorization: '',
   },
 });
 
 axiosMain.interceptors.request.use((config) => {
   const token = getToken();
-  config.headers.Authorization = token || adminToken;
+  config.headers.Authorization = token;
 
   return config;
 });
 
-
 axiosMain.interceptors.response.use(
   (res: AxiosResponse<{ content: any; message: string; result: number }>) => {
-    // if (res.data.result === 0) {
-    //   alert('Đã có lỗi hệ thống xảy ra (1)');
-    // }
+    if (res.data.result === 0) {
+      alert('Đã có lỗi hệ thống xảy ra (1)');
+    }
     return res;
   },
   (err: AxiosError) => {
