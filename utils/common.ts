@@ -58,12 +58,18 @@ export const isValidLang = (lang) => {
 };
 
 export const chunkCustomArray = (arr: Array<any>, size: number) => {
-  return Array.from({ length: Math.ceil(arr.length / size) }, (v, i) => arr.slice(i * size, i * size + size));
+  return Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>
+    arr.slice(i * size, i * size + size),
+  );
 };
 
 export const triggerOnChangeEvent = (window, node: any, value: string = '', callback = null) => {
   if (!!window) {
-    const inputTypes = [window.HTMLInputElement, window.HTMLSelectElement, window.HTMLTextAreaElement];
+    const inputTypes = [
+      window.HTMLInputElement,
+      window.HTMLSelectElement,
+      window.HTMLTextAreaElement,
+    ];
 
     if (inputTypes.indexOf(node.__proto__.constructor) > -1) {
       const setValue = Object.getOwnPropertyDescriptor(node.__proto__, 'value').set;
@@ -76,4 +82,16 @@ export const triggerOnChangeEvent = (window, node: any, value: string = '', call
       }
     }
   }
+};
+
+export const isValidPhone = (phone: string | undefined) => {
+  if (!phone) return false;
+  if (phone.length < 10) return false;
+  return /^0[0-9]{9,}$/g.test(phone);
+};
+
+export const isValidEmail = (email: string | undefined): boolean => {
+  if (!email) return false;
+
+  return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
 };

@@ -1,15 +1,20 @@
-import { faChevronDown, faChevronUp, faEye } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Card, CardBody, Col, InputGroup, Row } from '@paljs/ui';
 import React, { useState } from 'react';
-import { Table } from 'react-bootstrap';
+import { Form, Modal, Table } from 'react-bootstrap';
 import withAuth from '../HOC/withAuth';
 import axiosMain from '../services/axios/axiosMain';
 import styles from '../styles/Classes.module.scss';
+import { isValidEmail, isValidPhone } from '../utils/common';
 
 enum Sort {
   ASSENDING = '+',
   DESCENDING = '-',
+}
+
+interface FormCreateAdminState extends IParamAddNewAdmin {
+  errorMessage?: string;
 }
 const AdminAccount = () => {
   const LIMIT = 3;
@@ -21,7 +26,22 @@ const AdminAccount = () => {
   const [currentPage, setCurrentPage] = React.useState(1);
   const [maxPage, setMaxPage] = React.useState(0);
   const [search, setSearch] = React.useState('');
-
+  const [show, setShow] = useState(false);
+  const [formState, setFormState] = useState<FormCreateAdminState>({
+    username: '',
+    email: '',
+    password: '',
+    phoneNumber: '',
+    firstName: '',
+    middleName: '',
+    lastName: '',
+    studentID: '',
+    normalizedDisplayName: '',
+    personalEmail: '',
+    personalEmailConfirmed: true,
+    normalizedPersonalEmail: '',
+    personalPhoneNumber: '',
+  } as FormCreateAdminState);
   React.useEffect(() => {
     loadUsers({});
   }, []);
@@ -96,6 +116,10 @@ const AdminAccount = () => {
     );
   };
 
+  const handleShowDialogCreateAdminAccount = () => {
+    setShow(true);
+  };
+
   const renderPagination = () => {
     const buttons = [];
     for (let i = 1; i <= maxPage; i++) {
@@ -161,7 +185,67 @@ const AdminAccount = () => {
       });
     }
   };
+  const handleClose = () => {
+    setShow(false);
+  };
 
+  const handleFormChange = (e: any) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    let errorMessage = undefined;
+    if (name === 'email' && formState.email) {
+      if (!isValidEmail(value)) {
+        errorMessage = 'Email không hợp lệ';
+      }
+    }
+
+    if (name === 'phoneNumber' && formState.phoneNumber) {
+      if (!isValidPhone(value)) {
+        errorMessage = 'Số điện thoại không hợp lệ';
+      }
+    }
+
+    if (name === 'username' && formState.username) {
+      if (value === '') {
+        errorMessage = 'User name không thể để trống';
+      }
+    }
+
+    setFormState({
+      ...formState,
+      [name]: value,
+      errorMessage: !errorMessage ? undefined : errorMessage,
+    });
+  };
+
+  const handleSubmitSaveAdmin = () => {
+    if (
+      !formState.username ||
+      !formState.email ||
+      !formState.password ||
+      !formState.phoneNumber ||
+      !formState.firstName ||
+      !formState.lastName ||
+      !formState.middleName ||
+      formState.errorMessage !== undefined
+    ) {
+      setFormState({
+        ...formState,
+        errorMessage: 'Còn có lỗi xẩy ra không thể submit được',
+      });
+      return;
+    }
+
+    axiosMain
+      .post('/admin/admin-account/create-account', formState)
+      .then(({ data }) => {
+        console.log(data);
+        loadUsers({});
+      })
+      .catch(() => setErrorMessage('Có lỗi xảy ra trong quá tring tạo tài khoản admin'));
+
+    handleClose();
+  };
   return (
     <div className={`${styles['classes']}`}>
       <h5>Danh sách tài khoản admin</h5>
@@ -189,10 +273,16 @@ const AdminAccount = () => {
                   </InputGroup>
                 </Col>
               </Row>
-              <Row className={`${styles['classes__row']} mt-2`}>
+              <Row className={`${styles['classes__row']} mt-2 d-flex justify-content-between`}>
                 <Col breakPoint={{ xs: 12, lg: 2 }}>
                   <Button onClick={handleSearch} fullWidth>
                     Tìm kiếm
+                  </Button>
+                </Col>
+
+                <Col breakPoint={{ xs: 12, lg: 2 }}>
+                  <Button onClick={handleShowDialogCreateAdminAccount} fullWidth>
+                    Tạo admin
                   </Button>
                 </Col>
               </Row>
@@ -209,6 +299,63 @@ const AdminAccount = () => {
           {renderPagination()}
         </Col>
       </Row>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Tạo admin mới</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {formState.errorMessage !== undefined && (
+            <div className="alert alert-danger">{formState.errorMessage}</div>
+          )}
+          <Form onChange={handleFormChange}>
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Control name="username" type="text" placeholder="Nhập vào username" />
+              <Form.Text className="text-muted text-danger"></Form.Text>
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Control name="email" type="email" placeholder="Nhập vào email" />
+              <Form.Text className="text-muted text-danger"></Form.Text>
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Control name="phoneNumber" type="tel" placeholder="Nhập vào số điện thoại" />
+              <Form.Text className="text-muted text-danger"></Form.Text>
+            </Form.Group>
+            <Row>
+              <Col breakPoint={{ lg: 4, md: 4 }}>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <Form.Control name="lastName" type="text" placeholder="Họ" />
+                  <Form.Text className="text-muted text-danger"></Form.Text>
+                </Form.Group>
+              </Col>
+              <Col breakPoint={{ lg: 4, md: 4 }}>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <Form.Control name="middleName" type="text" placeholder="Tên đệm" />
+                  <Form.Text className="text-muted text-danger"></Form.Text>
+                </Form.Group>
+              </Col>
+              <Col breakPoint={{ lg: 4, md: 4 }}>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <Form.Control name="firstName" type="tel" placeholder="Tên" />
+                  <Form.Text className="text-muted text-danger"></Form.Text>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Control name="password" type="password" placeholder="Nhập vào mật khẩu" />
+              <Form.Text className="text-muted text-danger"></Form.Text>
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Đóng
+          </Button>
+          <Button variant="primary" onClick={handleSubmitSaveAdmin}>
+            Tạo
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

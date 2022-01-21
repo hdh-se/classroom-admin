@@ -52,3 +52,19 @@ interface IParamLockUnLockAccount {
   currentUser: string;
   username: string;
 }
+
+interface IParamAddNewAdmin {
+  username?: string;
+  email?: string;
+  password?: string;
+  phoneNumber?: string;
+  firstName?: string;
+  middleName?: string;
+  lastName?: string;
+  studentID?: string;
+  normalizedDisplayName?: string;
+  personalEmail?: string;
+  personalEmailConfirmed?: boolean;
+  normalizedPersonalEmail?: string;
+  personalPhoneNumber?: string;
+}
