@@ -4,7 +4,6 @@ import { Button, Card, CardBody, Col, InputGroup, Row } from '@paljs/ui';
 import React, { useState } from 'react';
 import { Table } from 'react-bootstrap';
 import withAuth from '../HOC/withAuth';
-import Layout from '../Layouts';
 import styles from '../styles/Classes.module.scss';
 import { StudentAccountList } from '../utils/dummy';
 
@@ -62,6 +61,9 @@ const AdminAccount = () => {
   return (
     <div className={`${styles['classes']}`}>
       <h5>Danh sách tài khoản</h5>
+      <div className="alert alert-danger" role="alert">
+        This is a danger alert—check it out!
+      </div>
       <Row>
         <Col breakPoint={{ xs: 12, lg: 12 }}>
           <Card>
