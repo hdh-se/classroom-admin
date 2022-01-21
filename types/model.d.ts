@@ -1,8 +1,10 @@
 interface IClasses {
   id: number;
-  name: string;
-  author: string;
-  createdDate: DateTime;
+  title: string;
+  classCode: string;
+  description: string;
+  owner: string;
+  createOn: DateTime;
 }
 
 interface IAdminAccount {
